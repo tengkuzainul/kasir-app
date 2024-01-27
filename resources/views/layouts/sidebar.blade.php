@@ -91,7 +91,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                    <a href="{{ route('barangKeluar') }}"
+                        class="nav-link {{ request()->is('barangKeluar') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-box-arrow-right"></i>
                         <p>Barang Keluar</p>
                     </a>

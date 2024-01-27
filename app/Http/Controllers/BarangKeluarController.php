@@ -12,7 +12,11 @@ class BarangKeluarController extends Controller
      */
     public function index()
     {
-        // 
+        $barangKeluar = DB::table('tb_barang_keluar')->join('tb_barang', 'tb_barang_keluar.barang_id', '=', 'tb_barang.id')
+            ->select('tb_barang_keluar.*', 'tb_barang.*')->get();
+        $barang = DB::table('tb_barang')->get();
+
+        return view('barangkeluar.index', compact('barangKeluar', 'barang'));
     }
 
     /**
@@ -28,7 +32,21 @@ class BarangKeluarController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::table('tb_barang_keluar')->insert([
+            'barang_id' => $request->barang_id,
+            'qty' => $request->qty,
+            'tanggal' => $request->tglmasuk,
+        ]);
+
+        $barang = DB::table('tb_barang')->find($request->barang_id);
+
+        if ($barang) {
+            DB::table('tb_barang')->where('id', $request->barang_id)->decrement('stok', $request->qty);
+        } else {
+            return redirect()->back();
+        }
+
+        return redirect('barangKeluar');
     }
 
     /**

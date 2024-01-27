@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProfileController;
@@ -57,6 +58,12 @@ Route::middleware(['auth', 'verified', 'role:kepalaToko|admin|kasir'])->group(fu
     Route::controller(BarangMasukController::class)->group(function () {
         Route::get('/barangMasuk', 'index')->name('barangMasuk');
         Route::post('/barangMasuk/add', 'store')->name('barangMasuk.save');
+        Route::delete('/barangMasuk/delete/{id}', 'destroy')->name('barangMasuk.delete');
+    });
+
+    Route::controller(BarangKeluarController::class)->group(function () {
+        Route::get('/barangKeluar', 'index')->name('barangKeluar');
+        Route::post('/barangKeluar/add', 'store')->name('barangKeluar.save');
     });
 });
 

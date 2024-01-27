@@ -39,10 +39,9 @@ class BarangMasukController extends Controller
         ]);
 
         $barang = DB::table('tb_barang')->find($request->barang_id);
+
         if ($barang) {
-            $barang = DB::table('tb_barang')->update([
-                'stok' => $request->qty
-            ]);
+            DB::table('tb_barang')->where('id', $request->barang_id)->increment('stok', $request->qty);
         } else {
             return redirect()->back();
         }
@@ -79,6 +78,17 @@ class BarangMasukController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $barangMasuk = DB::table('tb_barang_masuk')->find($id);
+
+        if ($barangMasuk) {
+
+
+            DB::table('tb_barang')->where('id', $barangMasuk->id)
+                ->decrement('stok', $barangMasuk->qty);
+
+            return redirect('barangMasuk');
+        } else {
+            return redirect()->back();
+        }
     }
 }

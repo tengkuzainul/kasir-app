@@ -1,13 +1,13 @@
 @extends('layouts.index')
-@section('title', 'Barang Masuk')
-@section('braedcrumb', 'Barang Masuk')
+@section('title', 'Barang Keluar')
+@section('braedcrumb', 'Barang Keluar')
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tables Barang Masuk</h3>
+                        <h3 class="card-title">Tables Barang Keluar</h3>
                         <div class="d-flex justify-content-end">
                             <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalBarang">Tambah Data
                                 <i class="bi bi-plus-circle-fill"></i></a>
@@ -25,7 +25,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($barangMasuk as $bm)
+                                @foreach ($barangKeluar as $bm)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $bm->nama_barang }}</td>
@@ -62,7 +62,7 @@
         <!-- /.row -->
     </div>
 
-    @include('barangmasuk.add')
+    @include('barangkeluar.add')
 
     @push('cetak')
         <script>
