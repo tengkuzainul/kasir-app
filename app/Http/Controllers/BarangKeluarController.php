@@ -33,20 +33,28 @@ class BarangKeluarController extends Controller
     public function store(Request $request)
     {
         DB::table('tb_barang_keluar')->insert([
-            'barang_id' => $request->barang_id,
+            'barang_id' => $request->brg_keluar,
             'qty' => $request->qty,
             'tanggal' => $request->tglmasuk,
         ]);
 
-        $barang = DB::table('tb_barang')->find($request->barang_id);
+        $barang = DB::table('tb_barang')->find($request->brg_keluar);
 
         if ($barang) {
-            DB::table('tb_barang')->where('id', $request->barang_id)->decrement('stok', $request->qty);
+            DB::table('tb_barang')->where('id', $request->brg_keluar)->decrement('stok', $request->qty);
         } else {
             return redirect()->back();
         }
 
         return redirect('barangKeluar');
+    }
+
+    public function cetakLaporan()
+    {
+        $laporan = DB::table('tb_barang_keluar')
+            ->join('tb_barang', 'tb_barang_keluar.barang_id', '=', 'tb_barang.id')
+            ->select('tb_barang_keluar.*', 'tb_barang.*')->get();
+        return view('barangKeluar.cetak', compact('laporan'));
     }
 
     /**
@@ -78,6 +86,19 @@ class BarangKeluarController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $barangMasuk = DB::table('tb_barang_keluar')->where('id', $id)->first();
+
+        if ($barangMasuk) {
+            DB::table('tb_barang_keluar')->where('id', $id)->delete();
+
+            DB::table('tb_barang')
+                ->where('id', $barangMasuk->barang_id)
+                ->decrement('stok', $barangMasuk->qty);
+
+
+            return redirect('barangMasuk');
+        } else {
+            return redirect()->back();
+        }
     }
 }

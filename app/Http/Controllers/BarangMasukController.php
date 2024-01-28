@@ -12,7 +12,8 @@ class BarangMasukController extends Controller
      */
     public function index()
     {
-        $barangMasuk = DB::table('tb_barang_masuk')->join('tb_barang', 'tb_barang_masuk.barang_id', '=', 'tb_barang.id')
+        $barangMasuk = DB::table('tb_barang_masuk')
+            ->join('tb_barang', 'tb_barang_masuk.barang_id', '=', 'tb_barang.id')
             ->select('tb_barang_masuk.*', 'tb_barang.*')->get();
         $barang = DB::table('tb_barang')->get();
 
@@ -33,20 +34,28 @@ class BarangMasukController extends Controller
     public function store(Request $request)
     {
         DB::table('tb_barang_masuk')->insert([
-            'barang_id' => $request->barang_id,
+            'barang_id' => $request->brg_masuk,
             'qty' => $request->qty,
             'tanggal' => $request->tglmasuk,
         ]);
 
-        $barang = DB::table('tb_barang')->find($request->barang_id);
+        $barang = DB::table('tb_barang')->find($request->brg_masuk);
 
         if ($barang) {
-            DB::table('tb_barang')->where('id', $request->barang_id)->increment('stok', $request->qty);
+            DB::table('tb_barang')->where('id', $request->brg_masuk)->increment('stok', $request->qty);
         } else {
             return redirect()->back();
         }
 
         return redirect('barangMasuk');
+    }
+
+    public function cetakLaporan()
+    {
+        $laporan = DB::table('tb_barang_masuk')
+            ->join('tb_barang', 'tb_barang_masuk.barang_id', '=', 'tb_barang.id')
+            ->select('tb_barang_masuk.*', 'tb_barang.*')->get();
+        return view('barangMasuk.cetak', compact('laporan'));
     }
 
     /**
@@ -78,17 +87,43 @@ class BarangMasukController extends Controller
      */
     public function destroy(string $id)
     {
-        $barangMasuk = DB::table('tb_barang_masuk')->find($id);
+        // $barangMasuk = DB::table('tb_barang_masuk')
+        //     ->join('tb_barang', 'tb_barang_masuk.barang_id', '=', 'tb_barang.id')
+        //     ->select('tb_barang_masuk.*', 'tb_barang.id')
+        //     ->get();
+
+        $barangMasuk = DB::table('tb_barang_masuk')->where('barang_id', $id)->first();
+        $barang = DB::table('tb_barang')->find($barangMasuk->id);
+
 
         if ($barangMasuk) {
-
-
-            DB::table('tb_barang')->where('id', $barangMasuk->id)
-                ->decrement('stok', $barangMasuk->qty);
-
-            return redirect('barangMasuk');
-        } else {
-            return redirect()->back();
+            $barang->stok -= $barangMasuk->qty;
+            DB::table('tb_barang_masuk')->where('id', $barangMasuk->id)->delete();
         }
+        return redirect('/barangMasuk');
+
+
+
+        // $barangMasuk = DB::table('tb_barang_masuk')->where('barang_id', $barang->id)->first();
+        // // dd($barangMasuk);
+        // if ($barangMasuk) {
+
+        //     // Delete the record from tb_barang_masuk
+        //     DB::table('tb_barang_masuk')
+        //         ->where(
+        //             'id',
+        //             $barangMasuk->id
+        //         )->delete();
+
+        //     // Decrement the stock in tb_barang
+        //     DB::table('tb_barang')
+        //         ->where('id', $barangMasuk->barang_id)
+        //         ->decrement('stok', $barangMasuk->qty);
+
+
+        //     return redirect('barangMasuk');
+        // } else {
+        //     return redirect()->back();
+        // }
     }
 }

@@ -3,8 +3,10 @@
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\BarangKeluarController;
 use App\Http\Controllers\BarangMasukController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,7 +35,26 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'verified', 'role:kepalaToko|admin|kasir'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:kepalaToko'])->group(function () {
+    // Manajemen User Route
+    Route::get('/user', [UserController::class, 'index'])->name('user');
+    Route::get('/user/add', [UserController::class, 'create'])->name('user.add');
+    Route::post('/user/save', [UserController::class, 'store'])->name('user.save');
+    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
+});
+
+
+Route::middleware(['auth', 'verified', 'role:kasir'])->group(function () {
+    // Manajemen User Route
+    Route::get('/user', [UserController::class, 'index'])->name('user');
+    Route::get('/user/add', [UserController::class, 'create'])->name('user.add');
+    Route::post('/user/save', [UserController::class, 'store'])->name('user.save');
+    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+    Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
+
     Route::controller(KategoriController::class)->group(function () {
         Route::get('/kategori', 'index')->name('kategori');
         Route::post('/kategori/save', 'store')->name('kategori.save');
@@ -50,21 +71,39 @@ Route::middleware(['auth', 'verified', 'role:kepalaToko|admin|kasir'])->group(fu
         Route::get('/barang/delete/{id}', 'destroy')->name('barang.delete');
     });
 
-    // Manajemen User Route
-    Route::get('/user', [UserController::class, 'index'])->name('user');
-    Route::get('/user/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
-    Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::controller(TransaksiController::class)->group(function () {
+        Route::get('/transaksi', 'index')->name('transaksi');
+        Route::get('/transaksi/create', 'create')->name('transaksi.create');
+    });
+});
 
+
+Route::middleware(['auth', 'verified', 'role:admin|kasir'])->group(function () {
     Route::controller(BarangMasukController::class)->group(function () {
         Route::get('/barangMasuk', 'index')->name('barangMasuk');
         Route::post('/barangMasuk/add', 'store')->name('barangMasuk.save');
         Route::delete('/barangMasuk/delete/{id}', 'destroy')->name('barangMasuk.delete');
+        // cetak Laporan
+        Route::get('/laporanBarangMasuk', 'cetakLaporan')->name('barangMasuk.laporan');
     });
 
     Route::controller(BarangKeluarController::class)->group(function () {
         Route::get('/barangKeluar', 'index')->name('barangKeluar');
         Route::post('/barangKeluar/add', 'store')->name('barangKeluar.save');
+        // cetak Laporan
+        Route::get('/laporanBarangKeluar', 'cetakLaporan')->name('barangkeluar.laporan');
+    });
+
+    Route::controller(CustomerController::class)->group(function () {
+        Route::get('/customer', 'index')->name('customer');
+        Route::post('/customer/save', 'store')->name('customer.save');
+        Route::get('/customer/edit/{id}', 'edit')->name('customer.edit');
+        Route::post('/customer/update/{id}', 'update')->name('customer.update');
+        Route::get('/customer/delete/{id}', 'destroy')->name('customer.delete');
+        // cetak Laporan
+        Route::get('/laporanCustomer', 'cetakLaporan')->name('cetakLaporan');
     });
 });
+
 
 require __DIR__ . '/auth.php';

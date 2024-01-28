@@ -1,24 +1,13 @@
 @extends('layouts.index')
-@section('title', 'Barang Keluar')
-@section('braedcrumb', 'Barang Keluar')
+@section('title', 'Laporan Barang Masuk')
+@section('braedcrumb', 'Laporan Barang Masuk')
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tables Barang Keluar</h3>
-                        <div class="d-flex justify-content-end">
-                            @hasrole('kasir')
-                                <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalBarang">Tambah Data
-                                    <i class="bi bi-plus-circle-fill"></i></a>
-                            @endhasrole
-                            @hasrole('admin')
-                                <a href="{{ route('barangkeluar.laporan') }}" class="btn btn-info">Laporan
-                                    Barang Masuk
-                                </a>
-                            @endhasrole
-                        </div>
+                        <h3 class="card-title">Laporan Barang Masuk</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -26,36 +15,33 @@
                             <thead>
                                 <tr>
                                     <th style="width: 30px">No</th>
-                                    <th>Nama Kategori</th>
+                                    <th>Kode Barang</th>
+                                    <th>Nama Barang</th>
                                     <th>Qty</th>
-                                    <th style="width: 30px">Action</th>
+                                    <th>Harga</th>
+                                    <th>Tanggal Masuk</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($barangKeluar as $bm)
+                                @foreach ($laporan as $bm)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $bm->kd_barang }}</td>
                                         <td>{{ $bm->nama_barang }}</td>
                                         <td>{{ $bm->qty }}</td>
-                                        <td>
-                                            {{-- <a href="" class="btn btn-xs btn-warning"><i
-                                                    class="bi bi-pencil-square"></i></a> --}}
-                                            <form action="{{ route('barangMasuk.delete', $bm->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-xs btn-danger"><i
-                                                        class="bi bi-trash3-fill"></i></button>
-                                            </form>
-                                        </td>
+                                        <td>Rp. {{ $bm->harga }}</td>
+                                        <td>{{ $bm->tanggal }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th style="width: 30px">No</th>
-                                    <th>Nama Kategori</th>
+                                    <th>Kode Barang</th>
+                                    <th>Nama Barang</th>
                                     <th>Qty</th>
-                                    <th style="width: 30px">Action</th>
+                                    <th>Harga</th>
+                                    <th>Tanggal Masuk</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -68,9 +54,6 @@
         </div>
         <!-- /.row -->
     </div>
-
-    @include('barangkeluar.add')
-
     @push('cetak')
         <script>
             $(function() {
@@ -78,7 +61,7 @@
                     "responsive": true,
                     "lengthChange": false,
                     "autoWidth": false,
-                    // "buttons": ["excel", "csv", "Excel", "pdf", "print"]
+                    "buttons": ["excel", "csv", "Excel", "pdf", "print"]
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
                 $('#example2').DataTable({
                     "paging": true,

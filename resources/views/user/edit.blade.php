@@ -22,11 +22,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="role">Role</label>
-                                <select name="role_id" id="role" class="form-control">
+                                <select name="role" id="role" class="form-control">
                                     <option value="" selected disabled>-- Pilih Role --</option>
                                     @foreach ($roles as $role)
                                         <option value="{{ $role->id }}"
-                                            {{ $user->hasRole($role->name) ? 'selected' : '' }}>
+                                            {{ in_array($role->id, $userRoles) ? 'selected' : '' }}">
                                             {{ $role->name }}
                                         </option>
                                     @endforeach

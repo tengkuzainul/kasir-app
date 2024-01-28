@@ -1,22 +1,22 @@
 @extends('layouts.index')
-@section('title', 'Barang Keluar')
-@section('braedcrumb', 'Barang Keluar')
+@section('title', 'Customers')
+@section('braedcrumb', 'Customers')
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Tables Barang Keluar</h3>
+                        <h3 class="card-title">Tables Data Customers</h3>
                         <div class="d-flex justify-content-end">
                             @hasrole('kasir')
-                                <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalBarang">Tambah Data
+                                <a href="" class="btn btn-info" data-toggle="modal" data-target="#customer">Tambah Data
                                     <i class="bi bi-plus-circle-fill"></i></a>
                             @endhasrole
                             @hasrole('admin')
-                                <a href="{{ route('barangkeluar.laporan') }}" class="btn btn-info">Laporan
-                                    Barang Masuk
-                                </a>
+                                <a href="{{ route('cetakLaporan') }}" class="btn btn-info">
+                                    Cetak Laporan
+                                    <i class="bi bi-plus-file-fill"></i></a>
                             @endhasrole
                         </div>
                     </div>
@@ -26,26 +26,26 @@
                             <thead>
                                 <tr>
                                     <th style="width: 30px">No</th>
-                                    <th>Nama Kategori</th>
-                                    <th>Qty</th>
+                                    <th>Nama Customer</th>
+                                    <th>Email Customer</th>
+                                    <th>No Handphone</th>
+                                    <th>Tanggal Lahir</th>
                                     <th style="width: 30px">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($barangKeluar as $bm)
+                                @foreach ($data as $d)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $bm->nama_barang }}</td>
-                                        <td>{{ $bm->qty }}</td>
+                                        <td>{{ $d->nama_customer }}</td>
+                                        <td>{{ $d->email_customer }}</td>
+                                        <td>{{ $d->no_hp }}</td>
+                                        <td>{{ $d->tgl_lahir }}</td>
                                         <td>
-                                            {{-- <a href="" class="btn btn-xs btn-warning"><i
-                                                    class="bi bi-pencil-square"></i></a> --}}
-                                            <form action="{{ route('barangMasuk.delete', $bm->id) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-xs btn-danger"><i
-                                                        class="bi bi-trash3-fill"></i></button>
-                                            </form>
+                                            <a href="{{ route('customer.edit', ['id' => $d->id]) }}"
+                                                class="btn btn-xs btn-warning"><i class="bi bi-pencil-square"></i></a>
+                                            <a href="{{ route('customer.delete', ['id' => $d->id]) }}"
+                                                class="btn btn-xs btn-danger"><i class="bi bi-trash3-fill"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -53,8 +53,10 @@
                             <tfoot>
                                 <tr>
                                     <th style="width: 30px">No</th>
-                                    <th>Nama Kategori</th>
-                                    <th>Qty</th>
+                                    <th>Nama Customer</th>
+                                    <th>Email Customer</th>
+                                    <th>No Handphone</th>
+                                    <th>Tanggal Lahir</th>
                                     <th style="width: 30px">Action</th>
                                 </tr>
                             </tfoot>
@@ -69,7 +71,7 @@
         <!-- /.row -->
     </div>
 
-    @include('barangkeluar.add')
+    @include('customer.add')
 
     @push('cetak')
         <script>

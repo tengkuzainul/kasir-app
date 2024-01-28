@@ -24,33 +24,42 @@
     <!-- Sidebar Menu -->
     <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <!-- Add icons to the links using the .nav-icon class
-   with font-awesome or any other icon font library -->
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{ route('dashboard') }}" class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
                     </p>
                 </a>
             </li>
-            @hasanyrole('kepalaToko|kasir')
+            @hasrole('kepalaToko')
                 <li class="nav-item">
                     <a href="{{ route('user') }}" class="nav-link {{ request()->is('user') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-person-fill"></i>
                         <p>Manajemen Users</p>
                     </a>
                 </li>
-            @endhasanyrole
-            @hasanyrole('admin|kasir')
                 <li class="nav-item">
-                    <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                        <i class="nav-icon bi bi-person-add"></i>
-                        <p>Customer</p>
+                    <a href="" class="nav-link">
+                        <i class="nav-icon bi bi-box"></i>
+                        <p>Return Barang</p>
                     </a>
                 </li>
-            @endhasanyrole
-            @hasanyrole('kepalaToko|admin|kasir')
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="nav-cion bi bi-file-earmark-arrow-down-fill"></i>
+                        <p>Laporan Penjualan</p>
+                    </a>
+                </li>
+            @endhasrole
+
+            @hasrole('kasir')
+                <li class="nav-item">
+                    <a href="{{ route('user') }}" class="nav-link {{ request()->is('user') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-person-fill"></i>
+                        <p>Manajemen Users</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon bi bi-boxes"></i>
@@ -75,14 +84,100 @@
                         </li>
                     </ul>
                 </li>
-            @endhasanyrole
-            @hasanyrole('kepalaToko|admin|kasir')
+                <li class="nav-item">
+                    <a href="{{ route('barangMasuk') }}"
+                        class="nav-link {{ request()->is('barangMasuk') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-box-arrow-in-left"></i>
+                        <p>Barang Masuk</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('barangKeluar') }}"
+                        class="nav-link {{ request()->is('barangKeluar') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-box-arrow-right"></i>
+                        <p>Barang Keluar</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('customer') }}" class="nav-link {{ request()->is('customer') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-person-add"></i>
+                        <p>Customer</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('transaksi') }}" class="nav-link {{ request()->is('transaksi') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-cash-coin"></i>
+                        <p>Transaksi</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                        <i class="nav-icon bi bi-box"></i>
+                        <p>Return Barang</p>
+                    </a>
+                </li>
+            @endhasrole
+
+            @hasrole('admin')
+                <li class="nav-item">
+                    <a href="{{ route('barangMasuk') }}"
+                        class="nav-link {{ request()->is('barangMasuk') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-box-arrow-in-left"></i>
+                        <p>Barang Masuk</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('barangKeluar') }}"
+                        class="nav-link {{ request()->is('barangKeluar') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-box-arrow-right"></i>
+                        <p>Barang Keluar</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('customer') }}" class="nav-link {{ request()->is('customer') ? 'active' : '' }}">
+                        <i class="nav-icon bi bi-person-add"></i>
+                        <p>Customer</p>
+                    </a>
+                </li>
+            @endhasrole
+
+
+            {{-- @hasallroles('kasir')
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon bi bi-boxes"></i>
+                        <p>
+                            Manajemen Barang
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ route('kategori') }}"
+                                class="nav-link {{ request()->is('kategori') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Kategori</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('barang') }}"
+                                class="nav-link {{ request()->is('barang') ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Barang</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endhasallroles
+            @hasanyrole('kasir')
                 <li class="nav-item">
                     <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
                         <i class="nav-icon bi bi-box"></i>
                         <p>Return Barang</p>
                     </a>
                 </li>
+            @endhasanyrole
+            @hasanyrole('admin|kasir')
                 <li class="nav-item">
                     <a href="{{ route('barangMasuk') }}"
                         class="nav-link {{ request()->is('barangMasuk') ? 'active' : '' }}">
@@ -98,14 +193,14 @@
                     </a>
                 </li>
             @endhasanyrole
-            @hasanyrole('kepalaToko|Kasir')
+            @hasanyrole('Kasir')
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon bi bi-cash-coin"></i>
                         <p>Transaksi</p>
                     </a>
                 </li>
-            @endhasanyrole
+            @endhasanyrole --}}
             {{-- <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon bi bi-file-earmark-fill"></i>

@@ -13,7 +13,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="exampleInputEmail1">Kategori Barang</label>
-                            <select name="barang_id" id="" class="form-control">
+                            <select name="brg_masuk" id="" class="form-control">
                                 <option value="" selected disabled>-- Pilih Kategori Barang --</option>
                                 @foreach ($barang as $b)
                                     <option value="{{ $b->id }}">{{ $b->nama_barang }}</option>
