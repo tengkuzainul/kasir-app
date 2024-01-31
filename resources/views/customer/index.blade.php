@@ -41,12 +41,14 @@
                                         <td>{{ $d->email_customer }}</td>
                                         <td>{{ $d->no_hp }}</td>
                                         <td>{{ $d->tgl_lahir }}</td>
-                                        <td>
-                                            <a href="{{ route('customer.edit', ['id' => $d->id]) }}"
-                                                class="btn btn-xs btn-warning"><i class="bi bi-pencil-square"></i></a>
-                                            <a href="{{ route('customer.delete', ['id' => $d->id]) }}"
-                                                class="btn btn-xs btn-danger"><i class="bi bi-trash3-fill"></i></a>
-                                        </td>
+                                        @hasrole('kasir')
+                                            <td>
+                                                <a href="{{ route('customer.edit', ['id' => $d->id]) }}"
+                                                    class="btn btn-xs btn-warning"><i class="bi bi-pencil-square"></i></a>
+                                                <a href="{{ route('customer.delete', ['id' => $d->id]) }}"
+                                                    class="btn btn-xs btn-danger"><i class="bi bi-trash3-fill"></i></a>
+                                            </td>
+                                        @endhasrole
                                     </tr>
                                 @endforeach
                             </tbody>

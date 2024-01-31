@@ -9,16 +9,17 @@
                     <div class="card-header">
                         <h3 class="card-title">Tables Barang Masuk</h3>
                         <div class="d-flex justify-content-end">
-                            @hasrole('kasir')
-                                <a href="" class="btn btn-info" data-toggle="modal" data-target="#modalBarang">Tambah Data
-                                    <i class="bi bi-plus-circle-fill"></i></a>
-                            @endhasrole
-                            @hasrole('admin')
+                            <a href="" class="btn btn-info m-1" data-toggle="modal" data-target="#modalBarang">Tambah
+                                Data
+                                <i class="bi bi-plus-circle-fill"></i></a>
+                        </div>
+                        @hasrole('admin')
+                            <div class="d-flex justify-content-end">
                                 <a href="{{ route('barangMasuk.laporan') }}" class="btn btn-info">Laporan
                                     Barang Masuk
                                 </a>
-                            @endhasrole
-                        </div>
+                            </div>
+                        @endhasrole
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
@@ -78,7 +79,7 @@
                     "responsive": true,
                     "lengthChange": false,
                     "autoWidth": false,
-                    // "buttons": ["excel", "csv", "Excel", "pdf", "print"]
+                    "buttons": ["excel", "csv", "pdf", "print"]
                 }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
                 $('#example2').DataTable({
                     "paging": true,

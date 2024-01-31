@@ -86,19 +86,14 @@ class BarangKeluarController extends Controller
      */
     public function destroy(string $id)
     {
-        $barangMasuk = DB::table('tb_barang_keluar')->where('id', $id)->first();
+        $barangMasuk = DB::table('tb_barang_keluar')->where('barang_id', $id)->first();
+        $barang = DB::table('tb_barang')->find($barangMasuk->id);
+
 
         if ($barangMasuk) {
-            DB::table('tb_barang_keluar')->where('id', $id)->delete();
-
-            DB::table('tb_barang')
-                ->where('id', $barangMasuk->barang_id)
-                ->decrement('stok', $barangMasuk->qty);
-
-
-            return redirect('barangMasuk');
-        } else {
-            return redirect()->back();
+            $barang->stok -= $barangMasuk->qty;
+            DB::table('tb_barang_keluar')->where('id', $barangMasuk->id)->delete();
         }
+        return redirect('barangKeluar');
     }
 }

@@ -40,13 +40,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('returnBarang') }}"
+                        class="nav-link {{ request()->is('returnBarang') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-box"></i>
                         <p>Return Barang</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('transaksi.laporan') }}" class="nav-link">
                         <i class="nav-cion bi bi-file-earmark-arrow-down-fill"></i>
                         <p>Laporan Penjualan</p>
                     </a>
@@ -77,7 +78,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('barang') }}" class="nav-link {{ request()->is('barang') ? 'active' : '' }}">
+                            <a href="{{ route('barang') }}"
+                                class="nav-link {{ request()->is('barang') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Barang</p>
                             </a>
@@ -111,7 +113,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ route('returnBarang') }}"
+                        class="nav-link {{ request()->is('returnBarang') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-box"></i>
                         <p>Return Barang</p>
                     </a>

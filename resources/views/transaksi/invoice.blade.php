@@ -1,47 +1,59 @@
 @extends('layouts.index')
-@section('title', 'Laporan Barang Keluar')
-@section('braedcrumb', 'Laporan Barang Keluar')
+@section('title', 'Invoice Transaksi')
+@section('braedcrumb', 'Invoice Transaksi')
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Laporan Barang Masuk</h3>
+                        <h3 class="card-title">Cetak Invoice Transaksi</h3>
                     </div>
                     <!-- /.card-header -->
                     <div class="card-body">
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th style="width: 30px">No</th>
-                                    <th>Kode Barang</th>
+                                    <th>No</th>
                                     <th>Nama Barang</th>
-                                    <th>Qty</th>
+                                    <th>Qantity</th>
                                     <th>Harga</th>
-                                    <th>Tanggal Keluar</th>
+                                    <th>Total Harga</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($laporan as $bm)
+                                @foreach ($transaksiItems as $item)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $bm->kd_barang }}</td>
-                                        <td>{{ $bm->nama_barang }}</td>
-                                        <td>{{ $bm->qty }}</td>
-                                        <td>Rp. {{ number_format($bm->harga) }}</td>
-                                        <td>{{ $bm->tanggal }}</td>
+                                        <td>{{ $item->nama }}</td>
+                                        <td>{{ $item->qty }}</td>
+                                        <td>Rp. {{ number_format($item->harga) }}</td>
+                                        <td>#</td>
                                     </tr>
                                 @endforeach
+                                <tr>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td>#</td>
+                                    <td class="font-weight-bold">
+                                        @php
+                                            $totalHarga = 0;
+                                            foreach ($transaksiItems as $item) {
+                                                $totalHarga += $item->qty * $item->harga;
+                                            }
+                                        @endphp
+                                        Rp. {{ number_format($totalHarga) }}
+                                    </td>
+                                </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th style="width: 30px">No</th>
-                                    <th>Kode Barang</th>
+                                    <th>No</th>
                                     <th>Nama Barang</th>
-                                    <th>Qty</th>
+                                    <th>Qantity</th>
                                     <th>Harga</th>
-                                    <th>tanggal Keluar</th>
+                                    <th>Total Harga</th>
                                 </tr>
                             </tfoot>
                         </table>
@@ -54,6 +66,7 @@
         </div>
         <!-- /.row -->
     </div>
+
     @push('cetak')
         <script>
             $(function() {

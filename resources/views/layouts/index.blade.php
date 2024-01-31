@@ -21,10 +21,12 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-light-info elevation-4">
             <!-- Brand Logo -->
+            <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
-                <h2 class="text-info brand-text font-weight-bold"><i class="fa fa-shopping-bag"></i> Kasir Apps</h2>
+                <img src="{{ asset('lte/dist/img/icons-96.png') }}" alt="AdminLTE Logo"
+                    class="brand-image img-circle elevation-5" />
+                <span class="h-2 text-info brand-text font-weight-bold">Kasir Apps</span>
             </a>
-
             <!-- Sidebar -->
             @include('layouts.sidebar')
             <!-- /.sidebar -->
@@ -37,7 +39,8 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <p class="h4 m-0">Selamat Datang Di Kasir Apps - <b>{{ Auth::user()->name }}</b></p>
+                            <p class="h4 m-0">Selamat Datang Di Kasir Apps - <b
+                                    class="text-uppercase">{{ Auth::user()->name }}</b></p>
                         </div>
                         <!-- /.col -->
                         <div class="col-sm-6">

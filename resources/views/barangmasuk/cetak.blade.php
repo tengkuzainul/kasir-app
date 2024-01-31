@@ -29,7 +29,7 @@
                                         <td>{{ $bm->kd_barang }}</td>
                                         <td>{{ $bm->nama_barang }}</td>
                                         <td>{{ $bm->qty }}</td>
-                                        <td>Rp. {{ $bm->harga }}</td>
+                                        <td>Rp. {{ number_format($bm->harga) }}</td>
                                         <td>{{ $bm->tanggal }}</td>
                                     </tr>
                                 @endforeach

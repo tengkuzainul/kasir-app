@@ -6,83 +6,67 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <p class="h-1 card-title"><b>Transaksi</b></p>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#transaksi">
-                                <i class="bi bi-plus-circle-fill"></i>
-                                Tambah Data
-                            </button>
-                        </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <form action="{{ route('transaksi.save') }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="form-group">
+                                        <label for="id_daftar">Daftar Barang</label>
+                                        <select class="form-control" id="id_daftar">
+                                            @foreach ($barang as $b)
+                                                <option value="{{ $b->id }}" data-nama="{{ $b->nama_barang }}"
+                                                    data-harga="{{ $b->harga }}" data-id="{{ $b->id }}">
+                                                    {{ $b->nama_barang }} | Rp. {{ number_format($b->harga) }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-group">
+                                        <label for="">&nbsp;</label>
+                                        <button type="button" class="btn btn-info d-block" onclick="tambahItem()">
+                                            <i class="bi bi-check-circle-fill"></i> Tambah Barang
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 table-responsive">
+                                    <table class="table table-hover table-bordered table-striped">
+                                        <thead>
+                                            <th>No</th>
+                                            <th>Nama Barang</th>
+                                            <th>Qantity</th>
+                                            <th>Harga</th>
+                                            <th>#</th>
+                                        </thead>
+                                        <tbody class="transaksiItem">
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th colspan="2">Jumlah</th>
+                                                <th class="quantity">0</th>
+                                                <th class="totalHarga">0</th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="hidden" name="total_harga" value="0">
+                                    <button class="btn btn-success"><i class="bi bi-cart-check"></i> Simpan
+                                        Transaksi</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <form action="" method="POST">
-                        @csrf
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive">
-                            <table class="table table-bordered table-striped">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 30px">No</th>
-                                        <th>Nama Barang</th>
-                                        <th>Harga</th>
-                                        <th>Qty</th>
-                                        <th>Subtotal</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 30px">No</td>
-                                        <td>Nama Barang</td>
-                                        <td>Harga</td>
-                                        <td>Qty</td>
-                                        <td>Subtotal</td>
-                                    </tr>
-                                </tbody>
-                                <tr>
-                                    <th colspan="4">Total Bayar</th>
-                                    <th>Total Bayar</th>
-                                </tr>
-                            </table>
-
-                            <div class="row mt-3">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="">No Transaksi</label>
-                                        <input type="text" class="form-control" name="no_transaksi" value="NVT-001"
-                                            required readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Tanggal Transaksi</label>
-                                        <input type="date" class="form-control" value="{{ date('Y') }}" required
-                                            readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="">Uang Pemebeli</label>
-                                        <input type="number" class="form-control" name="uang_pembeli" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="">Kembalian</label>
-                                        <input type="number" class="form-control" name="kembalian" required readonly>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
-
-                        <!-- /.card-header -->
-                        <div class="card-footer">
-                            <div class="d-flex justify-content-between">
-                                <a href="{{ route('transaksi') }}" class="btn btn-danger">
-                                    <i class="bi bi-arrow-left"></i> Close
-                                </a>
-                                <button type="submit" class="btn btn-outline-info"><i class="bi bi-check-lg"></i></i>
-                                    Simpan</button>
-                            </div>
-                        </div>
-                        <!-- /.card-body -->
-                    </form>
+                    <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
             </div>
@@ -90,36 +74,85 @@
         </div>
         <!-- /.row -->
     </div>
+@endsection
 
-    <div class="modal fade" id="transaksi">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Tambah Data Transaksi</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form action="#" method="POST">
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="exampleInputEmail1">Nama Barang</label>
-                                <select name="barang_id" id="" class="form-control">
-                                    <option value="" selected disabled>-- Pilih Nama Barang --</option>
-                                </select>
-                            </div>
-                            <div id="tampilBarang"></div>
-                        </div>
-                        <div class="modal-footer justify-content-between">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-info">Simpan</button>
-                        </div>
-                    </form>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-    </div>
+@section('js')
+    <script>
+        var totalHarga = 0;
+        var quantity = 0;
+        var listBarang = [];
+
+        // function untuk mengambil data barang yang akan ditambahkan
+        function tambahItem() {
+            updateTotalHarga(parseInt($('#id_daftar').find(':selected').data('harga')));
+            var barang = listBarang.filter((el) => el.id_daftar === $('#id_daftar').find(':selected').data('id'));
+            if (barang.length > 0) {
+                barang[0].quantity += 1;
+            } else {
+                var item = {
+                    id_daftar: $('#id_daftar').find(':selected').data('id'),
+                    nama: $('#id_daftar').find(':selected').data('nama'),
+                    harga: $('#id_daftar').find(':selected').data('harga'),
+                    quantity: 1,
+                };
+                listBarang.push(item);
+            }
+            updateQuantity(1);
+            updateTable();
+        }
+
+        // function untuk menambahkan data barang yang di select untuk ditampilkan di tabel <tbody></tbody>
+        function updateTable() {
+            var html = '';
+            listBarang.map((el, index) => {
+                var harga = formatRupiah(el.harga.toString());
+                var quantity = formatRupiah(el.quantity.toString());
+                html += `
+            <tr>
+                <td>${index + 1}</td>    
+                <td>${el.nama}</td>    
+                <td>${quantity}</td>    
+                <td>${harga}</td>
+                <td>
+                    <input type="hidden" name="id_daftar[]" value="${el.id_daftar}">    
+                    <input type="hidden" name="quantity[]" value="${el.quantity}">
+                    <button type="button" onClick="deleteBarang(${index})" class="btn btn-link">
+                        <i class="bi bi-trash3-fill text-danger"></i>    
+                    </button>    
+                </td>    
+            </tr>
+            `;
+            });
+            $('.transaksiItem').html(html);
+        }
+
+        // function Delete item Barang dan bisa mengurangi qty dari table
+        function deleteBarang(index) {
+            var barang = listBarang[index];
+            if (barang.quantity > 1) {
+                listBarang[index].quantity -= 1;
+                updateTotalHarga(-(barang.harga));
+                updateQuantity(-1);
+            } else {
+                listBarang.splice(index, 1);
+                updateTotalHarga(-(barang.harga * barang.quantity));
+                updateQuantity(-(barang.quantity));
+            }
+            updateTable();
+        }
+
+        // function untuk melakukan update harga ketika di select
+        function updateTotalHarga(nom) {
+            totalHarga += nom;
+            $('[name=total_harga]').val(totalHarga);
+            $('.totalHarga').html(formatRupiah(totalHarga.toString()));
+        }
+
+        // function untuk menambahkan quantity (seberapa banyak barang yang ditambahkan) dari barang yang di select
+        function updateQuantity(nom) {
+            quantity += nom;
+            $('.quantity').html(formatRupiah(quantity.toString()));
+        }
+    </script>
+
 @endsection

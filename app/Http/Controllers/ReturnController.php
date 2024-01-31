@@ -5,19 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class BarangMasukController extends Controller
+class ReturnController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $barangMasuk = DB::table('tb_barang_masuk')
-            ->join('tb_barang', 'tb_barang_masuk.barang_id', '=', 'tb_barang.id')
-            ->select('tb_barang_masuk.*', 'tb_barang.*')->get();
         $barang = DB::table('tb_barang')->get();
+        $customer = DB::table('tb_customer')->get();
+        $data = DB::table('tb_return_barang')->join('tb_barang', 'tb_return_barang.barang_id', '=', 'tb_barang.id')
+            ->join('tb_customer', 'tb_return_barang.customer_id', '=', 'tb_customer.id')
+            ->select('tb_return_barang.*', 'tb_barang.*', 'tb_customer.*')
+            ->get();
 
-        return view('barangmasuk.index', compact('barangMasuk', 'barang'));
+        return view('returnbarang.index', compact('data', 'barang', 'customer'));
     }
 
     /**
@@ -33,13 +35,14 @@ class BarangMasukController extends Controller
      */
     public function store(Request $request)
     {
-        DB::table('tb_barang_masuk')->insert([
-            'barang_id' => $request->brg_masuk,
+        DB::table('tb_return_barang')->insert([
+            'barang_id' => $request->barang_id,
+            'customer_id' => $request->customer,
+            'alasan' => $request->alasan,
             'qty' => $request->qty,
-            'tanggal' => $request->tglmasuk,
         ]);
 
-        $barang = DB::table('tb_barang')->find($request->brg_masuk);
+        $barang = DB::table('tb_barang')->find($request->barang_id);
 
         if ($barang) {
             DB::table('tb_barang')->where('id', $request->brg_masuk)->increment('stok', $request->qty);
@@ -47,15 +50,7 @@ class BarangMasukController extends Controller
             return redirect()->back();
         }
 
-        return redirect('barangMasuk');
-    }
-
-    public function cetakLaporan()
-    {
-        $laporan = DB::table('tb_barang_masuk')
-            ->join('tb_barang', 'tb_barang_masuk.barang_id', '=', 'tb_barang.id')
-            ->select('tb_barang_masuk.*', 'tb_barang.*')->get();
-        return view('barangMasuk.cetak', compact('laporan'));
+        return redirect('returnBarang');
     }
 
     /**
@@ -87,14 +82,8 @@ class BarangMasukController extends Controller
      */
     public function destroy(string $id)
     {
-        $barangMasuk = DB::table('tb_barang_masuk')->where('barang_id', $id)->first();
-        $barang = DB::table('tb_barang')->find($barangMasuk->id);
+        DB::table('tb_return_barang')->where('id', $id)->delete();
 
-
-        if ($barangMasuk) {
-            $barang->stok -= $barangMasuk->qty;
-            DB::table('tb_barang_masuk')->where('id', $barangMasuk->id)->delete();
-        }
-        return redirect('/barangMasuk');
+        return redirect('returnBarang');
     }
 }

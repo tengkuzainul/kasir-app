@@ -19,37 +19,38 @@
                             <thead>
                                 <tr>
                                     <th style="width: 20px">No</th>
+                                    <th>User Input</th>
                                     <th>No Transaksi</th>
                                     <th>Tanggal</th>
-                                    <th>Total Bayar</th>
-                                    <th style="width: 40px">Action</th>
+                                    <th>Total Harga</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($data as $d)
+                                @foreach ($barang as $b)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $d->no_transaksi }}</td>
-                                        <td>{{ date('d/M/Y', strtitime($d->tgl_transaksi)) }}</td>
-                                        <td>RP. {{ $d->total_bayar }}</td>
+                                        <td>{{ $b->name }}</td>
+                                        <td>{{ $b->kd_transaksi }}</td>
+                                        <td>{{ date('d/M/Y', strtotime($b->created_at)) }}</td>
+                                        <td>RP. {{ number_format($b->total_harga) }}</td>
                                         <td>
-                                            <a href="#" target="_blank" class="btn btn-xs btn-info"><i
-                                                    class="bi bi-printer-fill"></i></a>
-                                            {{-- <a href="#" target="_blank" class="btn btn-xs btn-warning"><i
-                                                    class="bi bi-pencil-square"></i></a>
-                                            <a href="#" class="btn btn-xs btn-danger"><i
-                                                    class="bi bi-trash3-fill"></i></a> --}}
+                                            <a href="{{ route('transaksi.printInvoice', ['id' => $b->id]) }}"
+                                                class="btn btn-xs btn-info"><i class="bi bi-printer-fill"></i></a>
+                                            <a href="{{ route('transaksi.delete', ['id' => $b->id]) }}"
+                                                class="btn btn-xs btn-danger"><i class="bi bi-trash3-fill"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th style="width: 30px">No</th>
+                                    <th style="width: 20px">No</th>
+                                    <th>User Input</th>
                                     <th>No Transaksi</th>
                                     <th>Tanggal</th>
-                                    <th>Total Bayar</th>
-                                    <th style="width: 50px">Action</th>
+                                    <th>Total Harga</th>
+                                    <th>Action</th>
                                 </tr>
                             </tfoot>
                         </table>

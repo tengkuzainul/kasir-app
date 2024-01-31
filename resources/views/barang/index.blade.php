@@ -34,7 +34,7 @@
                                         <td>{{ $d->kd_barang }}</td>
                                         <td>{{ $d->nama_kategori }}</td>
                                         <td>{{ $d->nama_barang }}</td>
-                                        <td>Rp. {{ $d->harga }}</td>
+                                        <td>Rp. {{ number_format($d->harga) }}</td>
                                         <td>{{ $d->stok }}</td>
                                         <td>
                                             <a href="{{ route('barang.edit', $d->id) }}" class="btn btn-xs btn-warning"><i
